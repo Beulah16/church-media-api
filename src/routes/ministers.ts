@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { create } from "../controllers/MinisterController";
+import { createMinister, deleteMinister, getAllMinisters, getOneMinister, updateMinister } from "../controllers/MinisterController";
 
 const router = Router();
 
-router.post("/", create);
-
+router.get("/", getAllMinisters);
+router.post("/", createMinister);
+router.get("/:id", getOneMinister);
+router.put("/:id", updateMinister);
+router.delete("/:id", deleteMinister);
 
 export default router;
