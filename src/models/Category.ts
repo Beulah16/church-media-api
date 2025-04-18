@@ -6,7 +6,7 @@ export class Category extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column()
+    @Column({unique: true})
     name: string;
 
     @OneToMany(() => Ministration, (ministration) => ministration.category)
