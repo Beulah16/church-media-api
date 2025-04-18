@@ -1,9 +1,14 @@
 import { Router } from "express";
-import { create } from "../controllers/CategoryController";
+import { create, getAll, getOne, remove, update } from "../controllers/CategoryController";
 
 const router = Router();
 
+router.get("/", getAll);
 router.post("/", create);
+router.get("/:id", getOne);
+router.put("/:id", update);
+router.delete("/:id", remove);
+
 
 
 export default router;
