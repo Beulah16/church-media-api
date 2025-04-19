@@ -15,15 +15,15 @@ export class Ministration extends BaseEntity {
     @Column()
     code: string;
 
-    @ManyToOne(() => Minister, (minister) => minister.ministrations, { nullable: true })
+    @ManyToOne(() => Minister, (minister) => minister.ministrations, { nullable: true , eager: true})
     @JoinColumn({ name: "minister_id" })
     minister: Minister;
 
-    @ManyToOne(() => Category, (category) => category.ministrations)
+    @ManyToOne(() => Category, (category) => category.ministrations, { eager: true })
     @JoinColumn({ name: "category_id" })
     category: Category;
 
-    @ManyToOne(() => Year, (year) => year.ministrations)
+    @ManyToOne(() => Year, (year) => year.ministrations, { eager: true })
     @JoinColumn({ name: "year_id" })
     year: Year;
 

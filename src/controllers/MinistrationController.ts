@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
 import { Ministration } from "../models/Ministration";
+import { plainToInstance } from "class-transformer";
+import { MinistrationResponseDto } from "../DTOs/ministration.dto";
 
 export const getAllMinistrations = async (req: Request, res: Response) => {
 
-    const ministrations = await Ministration.find()
+    const rawMinistrations = await Ministration.find()
+    const ministrations = plainToInstance(MinistrationResponseDto, rawMinistrations, {
+        excludeExtraneousValues: true,
+    });
 
     res.json(ministrations);
 }
