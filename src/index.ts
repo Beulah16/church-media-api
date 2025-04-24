@@ -2,6 +2,7 @@ import { config } from "dotenv";
 import express from "express";
 import { AppDataSource } from "./data-source";
 import apiEndPoints from "./routes"
+import { DatabaseSeeder } from "./seeders/data.seeder";
 
 config();
 
@@ -14,8 +15,10 @@ app.use('/api', apiEndPoints)
 const PORT = process.env.PORT;
 
 AppDataSource.initialize()
-    .then(() => {
+    .then(async () => {
         console.log("Data Source has been initialized!");
+
+        await DatabaseSeeder.create(200);
 
         app.listen(PORT, () => console.log(`App is listening on port ${PORT}`))
     })
