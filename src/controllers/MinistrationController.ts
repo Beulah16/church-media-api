@@ -36,21 +36,16 @@ export const getOneMinistration = async (req: Request, res: Response) => {
 export const updateMinistration = async (req: Request, res: Response) => {
 
     const { id } = req.params;
-    const { title, code, minister, category, year, mediaType, ministartionType } = req.body;
+    const body = req.body;
 
     const ministration = await Ministration.findOneBy({ id });
     if (!ministration) {
         res.json({ message: "Ministration not found" });
     }
     else {
-        ministration.title = title;
-        ministration.code = code;
-        ministration.minister = minister;
-        ministration.category = category;
-        ministration.mediaType = mediaType;
-        ministration.ministartionType = ministartionType;
+        const ministrationData = { ...ministration, ...body }
 
-        await ministration.save();
+        await ministrationData.save();
         res.json({ ministration });
     }
 }
