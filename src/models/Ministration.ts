@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDa
 import { Category } from "./Category";
 import { Year } from "./Year";
 import { Minister } from "./Minister";
-import { MediaType, MinistartionType } from "../types";
+import { MediaType, MinistrationType } from "../types";
 
 @Entity("ministrations")
 export class Ministration extends BaseEntity {
@@ -15,7 +15,7 @@ export class Ministration extends BaseEntity {
     @Column()
     code: string;
 
-    @ManyToOne(() => Minister, (minister) => minister.ministrations, { nullable: true , eager: true})
+    @ManyToOne(() => Minister, (minister) => minister.ministrations, { nullable: true, eager: true })
     @JoinColumn({ name: "minister_id" })
     minister: Minister;
 
@@ -36,10 +36,10 @@ export class Ministration extends BaseEntity {
 
     @Column({
         type: 'enum',
-        enum: MinistartionType,
-        default: MinistartionType.MESSAGE
+        enum: MinistrationType,
+        default: MinistrationType.MESSAGE
     })
-    ministartionType: MinistartionType;
+    ministrationType: MinistrationType;
 
     @CreateDateColumn({ name: "created_at" })
     createdAt: Date;

@@ -29,7 +29,7 @@ export class MinistrationResponseDto {
     mediaType: string;
 
     @Expose()
-    ministartionType: string;
+    MinistrationType: string;
 
     @Expose()
     @Transform(({ value }) => format(new Date(value), "EEE do MMM. yyyy, h:mma"))
