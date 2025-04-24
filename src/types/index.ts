@@ -3,7 +3,7 @@ export enum MediaType {
     AUDIO = 'audio',
     PDF = 'pdf'
 }
-export enum MinistartionType {
+export enum MinistrationType {
     MESSAGE = 'message',
     SONG = 'song',
     TESTIMONY = 'testimony',

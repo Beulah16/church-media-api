@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { Category } from '../models/Category';
 import { Year } from '../models/Year';
 import { Ministration } from '../models/Ministration';
-import { MediaType, MinistartionType } from '../types';
+import { MediaType, MinistrationType } from '../types';
 import { Minister } from '../models/Minister';
 
 
@@ -56,11 +56,11 @@ export class DatabaseSeeder {
             ministartion.category = faker.helpers.arrayElement(categories);
             ministartion.year = faker.helpers.arrayElement(years);
 
-            ministartion.ministartionType = faker.helpers.arrayElement([
-                MinistartionType.MESSAGE,
-                MinistartionType.SONG,
-                MinistartionType.TESTIMONY,
-                MinistartionType.SHOW,
+            ministartion.ministrationType = faker.helpers.arrayElement([
+                MinistrationType.MESSAGE,
+                MinistrationType.SONG,
+                MinistrationType.TESTIMONY,
+                MinistrationType.SHOW,
             ]);
 
             ministartion.mediaType = faker.helpers.arrayElement([
