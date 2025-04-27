@@ -18,7 +18,7 @@ AppDataSource.initialize()
     .then(async () => {
         console.log("Data Source has been initialized!");
 
-        await DatabaseSeeder.create(200);
+        // await DatabaseSeeder.create(200);
 
         app.listen(PORT, () => console.log(`App is listening on port ${PORT}`))
     })

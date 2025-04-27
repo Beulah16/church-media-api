@@ -52,9 +52,13 @@ export class DatabaseSeeder {
             const ministartion = new Ministration();
             ministartion.title = faker.lorem.sentence();
             ministartion.code = `MSG${faker.number.int({ min: 1000, max: 9999 })}`;
+            ministartion.description = faker.lorem.paragraphs(2);         
             ministartion.minister = faker.helpers.arrayElement(ministers);
+            ministartion.ministeredOn = faker.date.between({ from: new Date('2020-01-01'), to: new Date('2023-12-31')});
             ministartion.category = faker.helpers.arrayElement(categories);
             ministartion.year = faker.helpers.arrayElement(years);
+            ministartion.url = faker.internet.url();
+
 
             ministartion.ministrationType = faker.helpers.arrayElement([
                 MinistrationType.MESSAGE,

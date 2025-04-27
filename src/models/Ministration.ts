@@ -15,9 +15,15 @@ export class Ministration extends BaseEntity {
     @Column()
     code: string;
 
+    @Column({ nullable: true , type: "text"})
+    description: string;
+
     @ManyToOne(() => Minister, (minister) => minister.ministrations, { nullable: true, eager: true })
     @JoinColumn({ name: "minister_id" })
     minister: Minister;
+
+    @Column({ name: "ministered_on" })
+    ministeredOn: Date;
 
     @ManyToOne(() => Category, (category) => category.ministrations, { eager: true })
     @JoinColumn({ name: "category_id" })
@@ -40,6 +46,9 @@ export class Ministration extends BaseEntity {
         default: MinistrationType.MESSAGE
     })
     ministrationType: MinistrationType;
+
+    @Column({ nullable: true })
+    url: string;
 
     @CreateDateColumn({ name: "created_at" })
     createdAt: Date;

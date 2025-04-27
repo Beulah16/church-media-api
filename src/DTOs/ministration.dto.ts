@@ -35,6 +35,10 @@ export class MinistrationResponseDto {
     @Transform(({ value }) => format(new Date(value), "EEE do MMM. yyyy, h:mma"))
     createdAt: string;
 
+    @Expose()
+    @Transform(({ value }) => format(new Date(value), "EEE do MMM. yyyy, h:mma"))
+    ministeredOn: string;
+
     @Exclude()
     updatedAt: Date;
 }
