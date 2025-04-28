@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import { Ministration } from "../models/Ministration";
 import { plainToInstance } from "class-transformer";
 import { MinistrationResponseDto } from "../DTOs/ministration.dto";
-import { Between, FindOptionsWhere, ILike } from "typeorm";
+import { Minister } from "../models/Minister";
+import { Category } from "../models/Category";
+import { Year } from "../models/Year";
+import {filterMinistrationBy} from '../helpers'
 
 
 export const getAllMinistrations = async (req: Request, res: Response) => {
@@ -10,39 +13,19 @@ export const getAllMinistrations = async (req: Request, res: Response) => {
     const limit = parseInt(req.query.per_page as string) || 10;
     const skip = (page - 1) * limit;
 
-    const { title, minister, category, year, start_date, end_date } = req.query;
-
-    const where: FindOptionsWhere<Ministration> = {};
-
-    if (title) {
-        where.title = ILike(`%${title}%`);
-    }
-
-    if (minister) {
-        where.minister = { name: ILike(`%${minister}%`) };
-    }
-
-    if (category) {
-        where.category = { name: ILike(`%${category}%`) };
-    }
-
-    if (year) {
-        where.year = {name: ILike(`%${year}%`) };
-    }
-
-    if (start_date && end_date) {
-        where.ministeredOn = Between(new Date(start_date as string), new Date(end_date as string));
-    } else if (start_date) {
-        where.ministeredOn = Between(new Date(start_date as string), new Date());
-    } else if (end_date) {
-        where.ministeredOn = Between(new Date('1970-01-01'), new Date(end_date as string));
+    const { order_by } = req.query;
+    const order: Record<string, any> = {};
+    if (order_by) {
+        order[order_by as string] = "DESC";
+    } else {
+        order.createdAt = "DESC";
     }
 
     const [rawMinistrations, total] = await Ministration.findAndCount({
-        where,
+        where: filterMinistrationBy(req.query),
         skip,
         take: limit,
-        order: { createdAt: 'DESC' },
+        order
     });
 
     const ministrations = plainToInstance(MinistrationResponseDto, rawMinistrations, {
@@ -63,8 +46,29 @@ export const getAllMinistrations = async (req: Request, res: Response) => {
 
 export const createMinistration = async (req: Request, res: Response) => {
 
-    const response = await Ministration.save(req.body);
 
+    const { minister: ministerId, category: categoryId, year: yearId } = req.body;
+    
+    const minister = await Minister.findOneBy({ id: ministerId });
+    if (!minister) {
+        res.status(400).json({ message: "Minister not found" });
+        return;
+    }
+
+    const category = await Category.findOneBy({id: categoryId});
+    if (!category) {
+        res.status(400).json({ message: "Category not found" });
+        return;
+    }
+
+    const year = await Year.findOneBy({id: yearId});
+    if (!year) {
+        res.status(400).json({ message: "Year not found" });
+        return;
+    }
+
+    const response = await Ministration.save(req.body);
+    
     res.json(response);
 };
 
