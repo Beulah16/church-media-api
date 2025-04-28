@@ -3,7 +3,9 @@ import { Year } from "../models/Year";
 
 export const getAll = async (req: Request, res: Response) => {
 
-    const years = await Year.find()
+    const years = await Year.find({
+        order: { name: "DESC"}
+    })
     res.json(years);
 };
 
