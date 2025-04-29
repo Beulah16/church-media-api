@@ -1,24 +1,19 @@
-import { plainToInstance } from 'class-transformer';
-import { validate } from 'class-validator';
 import { Request, Response, NextFunction } from 'express';
+import { validationResult } from 'express-validator';
 
-export function validateRequest(requestDto: any) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const output = plainToInstance(requestDto, req.body);
+export const validate = (req: Request, res: Response, next: NextFunction) => {
 
-    validate(output, { whitelist: true, forbidNonWhitelisted: true }).then(errors => {
-      if (errors.length > 0) {
-        const messages: Record<string, any> = {};
+  const errors = validationResult(req);
 
-        for(let error of errors){
-          messages[error.property] = Object.values(error.constraints ?? []).join(', ');
-        }
+  if (!errors.isEmpty()) {
 
-        return res.status(400).json({ errors: messages });
-      } else {
-        req.body = output;
-        next();
-      }
+    res.status(422).json({
+      status: 'error',
+      message: 'Validation failed',
+      errors: errors.array()
     });
-  };
-}
+  } else {
+    next();
+  }
+
+};

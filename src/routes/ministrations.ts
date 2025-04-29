@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { createMinistration, deleteMinistration, getAllMinistrations, getOneMinistration, updateMinistration, } from "../controllers/MinistrationController";
-import { validateRequest } from "../middlewares/validator";
-import { MinistrationRequestDto } from "../DTOs/ministration.dto";
+import { validate } from "../middlewares/validator";
+import { validateMinistrationRequest } from "../validators";
 
 const router = Router();
 
 router.get("/", getAllMinistrations);
-router.post("/", validateRequest(MinistrationRequestDto), createMinistration);
+router.post("/", validateMinistrationRequest, validate, createMinistration);
 router.get("/:id", getOneMinistration);
 router.put("/:id", updateMinistration);
 router.delete("/:id", deleteMinistration);
