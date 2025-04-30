@@ -9,3 +9,9 @@ export enum MinistrationType {
     TESTIMONY = 'testimony',
     SHOW = 'show'
 }
+
+export enum UserRole {
+    USER = 'user',
+    MINISTER = 'minister',
+    ADMIN = 'admin'
+}
