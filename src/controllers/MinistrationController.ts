@@ -2,10 +2,7 @@ import { Request, Response } from "express";
 import { Ministration } from "../models/Ministration";
 import { plainToInstance } from "class-transformer";
 import { MinistrationResponseDto } from "../DTOs/ministration.dto";
-import { Minister } from "../models/Minister";
-import { Category } from "../models/Category";
-import { Year } from "../models/Year";
-import {filterMinistrationBy} from '../helpers'
+import { filterMinistrationBy } from '../helpers'
 
 
 export const getAllMinistrations = async (req: Request, res: Response) => {
@@ -33,6 +30,7 @@ export const getAllMinistrations = async (req: Request, res: Response) => {
     });
 
     res.json({
+        user: req.user,
         data: ministrations,
         meta: {
             current_page: page,
@@ -43,78 +41,36 @@ export const getAllMinistrations = async (req: Request, res: Response) => {
     });
 };
 
-
 export const createMinistration = async (req: Request, res: Response) => {
 
+    const ministration = await Ministration.save(req.body);
 
-    const { minister: ministerId, category: categoryId, year: yearId } = req.body;
-    
-    const minister = await Minister.findOneBy({ id: ministerId });
-    if (!minister) {
-        res.status(400).json({ message: "Minister not found" });
-        return;
-    }
-
-    const category = await Category.findOneBy({id: categoryId});
-    if (!category) {
-        res.status(400).json({ message: "Category not found" });
-        return;
-    }
-
-    const year = await Year.findOneBy({id: yearId});
-    if (!year) {
-        res.status(400).json({ message: "Year not found" });
-        return;
-    }
-
-    const response = await Ministration.save(req.body);
-    
-    res.json(response);
+    res.json({ministration});
 };
-
-
 
 export const getOneMinistration = async (req: Request, res: Response) => {
 
-    const { id } = req.params;
-
-    const ministration = await Ministration.findOneBy({ id });
-    if (!ministration)
-        res.json({ message: "Ministration not found" });
+    const ministration = req.data as Ministration;
 
     res.json({ ministration })
 }
 
 export const updateMinistration = async (req: Request, res: Response) => {
 
-    const { id } = req.params;
     const body = req.body;
+    const ministration = req.data as Ministration;
 
-    const ministration = await Ministration.findOneBy({ id });
-    if (!ministration) {
-        res.json({ message: "Ministration not found" });
-    }
-    else {
-        const ministrationData = { ...ministration, ...body }
+    const ministrationData = { ...ministration, ...body }
 
-        await ministrationData.save();
-        res.json({ ministration });
-    }
+    await ministrationData.save();
+    res.json({ ministration });
 }
 
 export const deleteMinistration = async (req: Request, res: Response) => {
 
-    const { id } = req.params;
-    const ministration = await Ministration.findOneBy({ id });
-    if (!ministration) {
-        res.json({ message: "Ministration not found" });
-    }
-    else {
-        ministration.softRemove();
+    const ministration = req.data as Ministration;
 
-        res.json({ message: "Ministration deleted successfulyy" });
-    }
+    ministration.softRemove();
 
+    res.json({ message: "Ministration deleted successfulyy" });
 };
-
-

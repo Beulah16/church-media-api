@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDa
 import { Category } from "./Category";
 import { Year } from "./Year";
 import { Minister } from "./Minister";
-import { MediaType, MinistrationType } from "../types";
+import { MediaType, MinistrationType } from "../types/";
 
 @Entity("ministrations")
 export class Ministration extends BaseEntity {
@@ -15,7 +15,7 @@ export class Ministration extends BaseEntity {
     @Column()
     code: string;
 
-    @Column({ nullable: true , type: "text"})
+    @Column({ nullable: true, type: "text" })
     description: string;
 
     @ManyToOne(() => Minister, (minister) => minister.ministrations, { nullable: true, eager: true })
