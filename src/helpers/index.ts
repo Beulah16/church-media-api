@@ -32,3 +32,7 @@ export function filterMinistrationBy(query: Record<any, any>): FindOptionsWhere<
 
     return where;
 }
+
+export async function findDataById<T>(model: any, id: string): Promise<T | null> {
+   return await model.findOneBy({ id });
+}

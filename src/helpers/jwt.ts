@@ -10,6 +10,13 @@ export class JWT {
         const secret = process.env.JWT_SECRET!;
         const expiry = process.env.JWT_EXPIRY as StringValue;
 
-        return jwt.sign({ data: payload }, secret, { expiresIn: expiry });
+        return jwt.sign({ ...payload }, secret, { expiresIn: expiry });
+    }
+
+    static verifyToken(token: string): User | null {
+        const secret = process.env.JWT_SECRET!;
+
+        return jwt.verify(token, secret) as User;
+
     }
 }
