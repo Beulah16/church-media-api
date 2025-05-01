@@ -1,7 +1,7 @@
 // dto/MinistrationResponseDto.ts
 import { Exclude, Expose, Transform } from 'class-transformer';
 import { format } from 'date-fns';
-import { MediaType, MinistrationType } from '../types';
+import { MediaType, MinistrationType } from '../types/';
 
 export class MinistrationResponseDto {
     @Expose()

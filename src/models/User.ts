@@ -1,5 +1,7 @@
 import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserRole } from "../types";
+import { BaseNotification } from "../notifications/BaseNotification";
+import { transport } from "../utils/mailer";
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -31,4 +33,10 @@ export class User extends BaseEntity {
 
     @DeleteDateColumn({ name: "deleted_at", nullable: true })
     deletedAt: Date;
+
+    async notify(notification: BaseNotification) {
+        const mailOptions = notification.send(this.email, this);
+
+        await transport.sendMail(mailOptions);
+    }
 }
