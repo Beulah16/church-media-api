@@ -1,6 +1,6 @@
 import { BaseNotification } from "./BaseNotification";
 
-export class UserRegisteredNotification extends BaseNotification{
+export class WelcomeNotification extends BaseNotification{
     subject(): string {
         return "Welcome to our platform!";
     }

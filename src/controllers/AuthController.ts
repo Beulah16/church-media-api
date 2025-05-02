@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { User } from '../models/User';
 import { Password } from '../helpers/password';
 import { JWT } from '../helpers/jwt';
-import { UserRegisteredNotification } from '../notifications/UserRegisteredNotification';
+import { WelcomeNotification } from '../notifications/WelcomeNotification';
 
 export const register = async (req: Request, res: Response) => {
     const userData = req.body;
@@ -13,7 +13,7 @@ export const register = async (req: Request, res: Response) => {
         Object.assign(user, userData);
         await user.save();
 
-        await user.notify(new UserRegisteredNotification())
+        await user.notify(new WelcomeNotification())
 
         res.status(201).json({ message: 'User registered successfully', user });
     } catch (error) {
