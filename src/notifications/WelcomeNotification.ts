@@ -1,4 +1,5 @@
 import { BaseNotification } from "./BaseNotification";
+import { welcomeEmailTemplate } from "./templates/welcomeEmailTemplate";
 
 export class WelcomeNotification extends BaseNotification{
     subject(): string {
@@ -6,7 +7,7 @@ export class WelcomeNotification extends BaseNotification{
     }
 
     template(userName: string): string {
-        return `Hello ${userName}, welcome to our platform!`;
+        return welcomeEmailTemplate(userName);
     }
   
 }

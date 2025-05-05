@@ -7,7 +7,7 @@ export abstract class BaseNotification {
                 from: process.env.MAILTRAP_SENDER as string,
                 to,
                 subject: this.subject(),
-                text: this.template(data.fullName),
+                html: this.template(data.fullName),
                 // category: "Integration Test",
                 // sandbox: true
         }

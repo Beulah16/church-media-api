@@ -2,6 +2,7 @@ import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, Primary
 import { UserRole } from "../types";
 import { BaseNotification } from "../notifications/BaseNotification";
 import { transport } from "../utils/mailer";
+import { emailQueue } from "../queues/emailQueue";
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -37,6 +38,8 @@ export class User extends BaseEntity {
     async notify(notification: BaseNotification) {
         const mailOptions = notification.send(this.email, this);
 
-        await transport.sendMail(mailOptions);
+        await emailQueue.add("sendMail", mailOptions);
+
+        // await transport.sendMail(mailOptions);
     }
 }
