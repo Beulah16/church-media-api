@@ -7,7 +7,7 @@ import { filterMinistrationBy } from '../helpers'
 
 export const getAllMinistrations = async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.per_page as string) || 10;
+    const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
 
     const { order_by } = req.query;
@@ -16,7 +16,7 @@ export const getAllMinistrations = async (req: Request, res: Response) => {
         order[order_by as string] = "DESC";
     } else {
         order.createdAt = "DESC";
-    }
+    } 
 
     const [rawMinistrations, total] = await Ministration.findAndCount({
         where: filterMinistrationBy(req.query),

@@ -40,6 +40,5 @@ export class User extends BaseEntity {
 
         await emailQueue.add("sendMail", mailOptions);
 
-        // await transport.sendMail(mailOptions);
     }
 }
