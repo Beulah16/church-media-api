@@ -47,8 +47,11 @@ export class Ministration extends BaseEntity {
     })
     ministrationType: MinistrationType;
 
+    @Column({ name: "file_path", nullable: true })
+    filePath: string;
+
     @Column({ nullable: true })
-    url: string;
+    thumbnail: string;
 
     @CreateDateColumn({ name: "created_at" })
     createdAt: Date;

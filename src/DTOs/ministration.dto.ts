@@ -43,7 +43,10 @@ export class MinistrationResponseDto {
     description: string;
 
     @Expose()
-    url: string;
+    filePath: string;
+
+    @Expose()
+    thumbnail: string;
 
     @Exclude()
     updatedAt: Date;
