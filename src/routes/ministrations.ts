@@ -6,6 +6,7 @@ import { isLoggedIn } from "../middlewares/auth.middleware";
 import { isAdmin } from "../middlewares/role.middleware";
 import { idExists } from "../middlewares/data-exists.middleware";
 import { Ministration } from "../models/Ministration";
+import { upload } from "../helpers";
 
 const router = Router();
 
@@ -13,7 +14,7 @@ router.get("/", getAllMinistrations);
 router.get("/:id", idExists(Ministration), getOneMinistration);
 
 router.use("/", isLoggedIn, isAdmin); 
-router.post("/", validateMinistrationRequest, validate, createMinistration);
+router.post("/", upload().single("thumbnail"), validateMinistrationRequest, validate, createMinistration);
 
 router .use("/:id", idExists(Ministration)); 
 router.put("/:id",  updateMinistration);

@@ -4,6 +4,7 @@ import { AppDataSource } from "./data-source";
 import apiEndPoints from "./routes"
 import { DatabaseSeeder } from "./seeders/data.seeder";
 import "./workers/emailWorker";
+import "./workers/fileUploadWorker";
 
 config();
 
